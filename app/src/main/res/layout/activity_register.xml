@@ -10,6 +10,13 @@
     android:gravity="center"
     tools:context=".Register">
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="378dp"
+        android:contentDescription="@string/login_photo"
+        app:srcCompat="@drawable/loginphoto" />
+
 
     <TextView
         android:text="@string/register"
@@ -37,11 +44,13 @@
         android:id="@+id/password"
         android:textSize="20sp"
         android:hint="@string/password"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/confirmPass"
         android:textSize="20sp"
+        android:inputType="textPassword"
         android:hint="@string/confirm_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
