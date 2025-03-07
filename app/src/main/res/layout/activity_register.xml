@@ -8,77 +8,105 @@
     android:orientation="vertical"
     android:padding="15dp"
     android:gravity="center"
-    tools:context=".Register">
+    tools:context=".Register"
+    android:background="@drawable/backgroundimage">
 
     <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="match_parent"
-        android:layout_height="378dp"
-        android:contentDescription="@string/login_photo"
-        app:srcCompat="@drawable/loginphoto" />
-
-
-    <TextView
-        android:text="@string/register"
-        android:textSize="25sp"
-        android:layout_marginBottom="20dp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/email"
-        android:hint="@string/email"
-        android:drawableStart="@drawable/baseline_email_24"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/password"
-        android:textSize="20sp"
-        android:hint="@string/password"
-        android:drawableStart="@drawable/baseline_lock_24"
-        android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/confirmPass"
-        android:drawableStart="@drawable/baseline_lock_24"
-        android:textSize="20sp"
-        android:inputType="textPassword"
-        android:hint="@string/confirm_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:visibility="gone"
+        android:id="@+id/imageView2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_logo"
+        android:layout_marginBottom="80dp"
+        app:srcCompat="@drawable/app_logo_removebg" />
 
-    <Button
-        android:id="@+id/registerButton"
-        android:text="@string/register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
-    <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:id="@+id/loginNow"
-        android:text="@string/click_to_login"
+
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp"
+        app:cardBackgroundColor="@color/white"
+        android:backgroundTint="#99FFFFFF"
+        android:backgroundTintMode="src_in">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:padding="24dp">
+
+            <TextView
+                android:text="@string/register"
+                android:textSize="25sp"
+                android:layout_marginBottom="20dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email"
+                android:hint="@string/email"
+                android:drawableStart="@drawable/baseline_email_24"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:textSize="20sp"
+                android:hint="@string/password"
+                android:drawableStart="@drawable/baseline_lock_24"
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/confirmPass"
+                android:drawableStart="@drawable/baseline_lock_24"
+                android:textSize="20sp"
+                android:inputType="textPassword"
+                android:hint="@string/confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/registerButton"
+                android:text="@string/register"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:id="@+id/loginNow"
+                android:text="@string/click_to_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
 
 
 </LinearLayout>
