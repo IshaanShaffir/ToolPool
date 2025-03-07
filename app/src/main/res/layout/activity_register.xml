@@ -33,6 +33,7 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/email"
         android:hint="@string/email"
+        android:drawableStart="@drawable/baseline_email_24"
         android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -44,11 +45,13 @@
         android:id="@+id/password"
         android:textSize="20sp"
         android:hint="@string/password"
+        android:drawableStart="@drawable/baseline_lock_24"
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/confirmPass"
+        android:drawableStart="@drawable/baseline_lock_24"
         android:textSize="20sp"
         android:inputType="textPassword"
         android:hint="@string/confirm_password"

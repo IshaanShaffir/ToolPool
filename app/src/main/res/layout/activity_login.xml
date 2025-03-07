@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"/>
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
+            android:drawableStart="@drawable/baseline_email_24"
             android:hint="@string/email"
             android:textSize="20sp"
             android:layout_width="match_parent"
@@ -44,6 +45,7 @@
         android:id="@+id/password"
         android:hint="@string/password"
         android:inputType="textPassword"
+        android:drawableStart="@drawable/baseline_lock_24"
         android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
