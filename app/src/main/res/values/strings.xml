@@ -10,4 +10,9 @@
     <string name="not_a_member_register_now">Not a member? Register Now</string>
     <string name="login_photo">login_photo</string>
     <string name="app_logo">app logo</string>
+    <string name="add_listing">add_listing</string>
+    <string name="home">Home</string>
+    <string name="search">search</string>
+    <string name="userprofile">userProfile</string>
+    <string name="settings">settings</string>
 </resources>
