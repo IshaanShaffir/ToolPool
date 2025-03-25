@@ -12,7 +12,7 @@
     <string name="app_logo">app logo</string>
     <string name="add_listing">add_listing</string>
     <string name="home">Home</string>
-    <string name="search">search</string>
-    <string name="userprofile">userProfile</string>
-    <string name="settings">settings</string>
+    <string name="search">Search</string>
+    <string name="userprofile">User Profile</string>
+    <string name="settings">Settings</string>
 </resources>
