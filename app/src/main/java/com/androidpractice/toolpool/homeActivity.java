@@ -2,6 +2,7 @@ package com.androidpractice.toolpool;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,5 +61,20 @@ public class homeActivity extends AppCompatActivity {
                 finish();
             }
         });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.search) {
+                    Intent intent = new Intent(homeActivity.this, searchActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                // Add handlers for other menu items if needed (optional)
+                return false;
+            }
+        });
+
     }
 }

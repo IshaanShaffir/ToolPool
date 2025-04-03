@@ -15,4 +15,27 @@
     <string name="search">Search</string>
     <string name="userprofile">User Profile</string>
     <string name="settings">Settings</string>
+    <array name="distance_spinner_items">
+        <item>5 km</item>
+        <item>10 km</item>
+        <item>25 km</item>
+        <item>50 km</item>
+        <item>100 km</item>
+    </array>
+    <array name="category_spinner_items">
+        <item>Power Tool</item>
+        <item>Hand Tool</item>
+        <item>Cutting Tool</item>
+        <item>Vehicle</item>
+        <item>Other</item>
+    </array>
+
+    <array name="condition_spinner_items">
+        <item>Very Good</item>
+        <item>Good</item>
+        <item>Fair</item>
+        <item>Damaged, but usable</item>
+        <item>Damaged, not usable</item>
+    </array>
+
 </resources>
