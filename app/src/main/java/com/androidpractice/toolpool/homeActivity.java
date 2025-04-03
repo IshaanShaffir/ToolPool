@@ -2,34 +2,34 @@ package com.androidpractice.toolpool;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.androidpractice.toolpool.databinding.ActivityHomeBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.androidpractice.toolpool.R;
 
 public class homeActivity extends AppCompatActivity {
-
+    ActivityHomeBinding binding;
     FirebaseAuth auth;
-    Button button;
-    TextView textView;
     FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         FirebaseApp.initializeApp(this);
-
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -37,27 +37,41 @@ public class homeActivity extends AppCompatActivity {
         });
 
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.logout);
-        textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
 
-        if(user == null){
+        if (user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
             finish();
+            return;
         }
-        else{
-            textView.setText(user.getEmail());
-        }
-        button.setOnClickListener(new View.OnClickListener(){
 
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-                finish();
+        replaceFragment(new HomeFragment());
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_home) {
+                replaceFragment(new HomeFragment());
+            } else if (item.getItemId() == R.id.nav_search) {
+                replaceFragment(new SearchFragment());
             }
+            else if (item.getItemId() == R.id.nav_profile) {
+                replaceFragment(new ProfileFragment());
+            }
+            else if (item.getItemId() == R.id.nav_map) {
+                replaceFragment(new MapFragment());
+            }
+            else if (item.getItemId() == R.id.nav_settings) {
+                replaceFragment(new SettingsFragment());
+            }
+
+            return true;
         });
+
+    }
+
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 }
