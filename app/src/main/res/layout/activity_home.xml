@@ -31,6 +31,7 @@
                 tools:ignore="RtlHardcoded" />
 
             <ImageView
+                android:id="@+id/add_listing_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="right"
