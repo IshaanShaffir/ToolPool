@@ -4,32 +4,32 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.bumptech.glide.Glide;
 import com.androidpractice.toolpool.databinding.FragmentHomeBinding;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private DatabaseReference databaseReference;
-    private ValueEventListener listingsListener; // Store the listener to remove it later
+    private ValueEventListener listingsListener;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    public HomeFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         databaseReference = FirebaseDatabase.getInstance().getReference("listings");
-
-        // Fetch and display listings
         fetchListings();
-
         return binding.getRoot();
     }
 
@@ -37,15 +37,11 @@ public class HomeFragment extends Fragment {
         listingsListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Ensure the fragment is attached and has a valid context
                 if (!isAdded() || getContext() == null || binding == null) {
-                    return; // Skip if fragment is not attached or view is destroyed
+                    return;
                 }
-
-                // Clear existing views
                 binding.listingsContainer.removeAllViews();
 
-                /* Remove any existing views */
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Listing listing = snapshot.getValue(Listing.class);
                     if (listing != null) {
@@ -57,8 +53,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 if (isAdded() && getContext() != null) {
-                    android.widget.Toast.makeText(getContext(), "Failed to load listings: " + databaseError.getMessage(),
-                            android.widget.Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Failed to load listings: " + databaseError.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -66,32 +62,47 @@ public class HomeFragment extends Fragment {
     }
 
     private void addListingCard(Listing listing) {
-        // Use the fragment's view context or activity context
         if (getContext() == null || binding == null) {
-            return; // Skip if no valid context
+            return;
         }
 
-        // Inflate the card view layout
         View cardView = LayoutInflater.from(getContext())
                 .inflate(R.layout.listings_card, binding.listingsContainer, false);
 
-        // Find views in the card
+        ImageView imageView = cardView.findViewById(R.id.listing_image);
         TextView titleView = cardView.findViewById(R.id.listing_title);
 
-        // Set the listing title
         titleView.setText(listing.getTitle());
 
-        // Add the card to the container
+        // Load first photo if available
+        List<String> photoUrls = listing.getPhotoUrls();
+        if (photoUrls != null && !photoUrls.isEmpty()) {
+            Glide.with(getContext())
+                    .load(photoUrls.get(0))
+                    .placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.placeholder_image)
+                    .into(imageView);
+        } else {
+            imageView.setImageResource(R.drawable.placeholder_image);
+        }
+
+        // Add click listener to navigate to ListingDetailFragment
+        cardView.setOnClickListener(v -> {
+            if (getActivity() instanceof homeActivity) {
+                ListingDetailFragment detailFragment = ListingDetailFragment.newInstance(listing);
+                ((homeActivity) getActivity()).replaceFragment(detailFragment);
+            }
+        });
+
         binding.listingsContainer.addView(cardView);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Remove the listener when the view is destroyed
         if (databaseReference != null && listingsListener != null) {
             databaseReference.removeEventListener(listingsListener);
         }
-        binding = null; // Clear binding reference
+        binding = null;
     }
 }
