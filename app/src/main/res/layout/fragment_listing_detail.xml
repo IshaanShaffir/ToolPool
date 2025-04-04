@@ -9,14 +9,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/detail_image"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/images_view_pager"
             android:layout_width="300dp"
             android:layout_height="200dp"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/listing_image_desc"
             android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/image_counter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Image 1 of 1"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/detail_title"
