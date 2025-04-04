@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder> {
@@ -18,14 +19,18 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
     @Override
     public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_1, parent, false);
+                .inflate(R.layout.photo_item, parent, false);
         return new PhotoViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(PhotoViewHolder holder, int position) {
         Uri uri = photoUris.get(position);
-        holder.imageView.setImageURI(uri);
+        Glide.with(holder.itemView.getContext())
+                .load(uri)
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.placeholder_image)
+                .into(holder.imageView);
     }
 
     @Override
@@ -38,9 +43,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
 
         PhotoViewHolder(View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(android.R.id.text1);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(100, 100));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView = itemView.findViewById(R.id.photo_image);
         }
     }
 }
