@@ -46,6 +46,11 @@ public class homeActivity extends AppCompatActivity {
             return;
         }
 
+        // Add click listener for the add listing button
+        binding.addListingButton.setOnClickListener(v -> {
+            replaceFragment(new CreateListingFragment());
+        });
+
         replaceFragment(new HomeFragment());
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
@@ -62,13 +67,11 @@ public class homeActivity extends AppCompatActivity {
             else if (item.getItemId() == R.id.nav_settings) {
                 replaceFragment(new SettingsFragment());
             }
-
             return true;
         });
-
     }
 
-    private void replaceFragment(Fragment fragment){
+    void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
