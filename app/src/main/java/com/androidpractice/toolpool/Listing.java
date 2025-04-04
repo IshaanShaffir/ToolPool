@@ -1,16 +1,19 @@
 package com.androidpractice.toolpool;
 
-public class Listing {
+import java.io.Serializable;
+import java.util.List;
+
+public class Listing implements Serializable {
+    private String listingId;
     private String title;
     private String description;
     private String category;
     private String address;
     private double deposit;
     private String userId;
-    private String listingId;
-    private long timestamp;
-    private long lendDate;    // Added for lend date
-    private long returnDate;  // Added for return date
+    private long lendDate;
+    private long returnDate;
+    private List<String> photoUrls;
 
     // Required empty constructor for Firebase
     public Listing() {}
@@ -23,12 +26,13 @@ public class Listing {
         this.address = address;
         this.deposit = deposit;
         this.userId = userId;
-        this.timestamp = System.currentTimeMillis();
         this.lendDate = lendDate;
         this.returnDate = returnDate;
     }
 
     // Getters and setters
+    public String getListingId() { return listingId; }
+    public void setListingId(String listingId) { this.listingId = listingId; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
     public String getDescription() { return description; }
@@ -41,12 +45,10 @@ public class Listing {
     public void setDeposit(double deposit) { this.deposit = deposit; }
     public String getUserId() { return userId; }
     public void setUserId(String userId) { this.userId = userId; }
-    public String getListingId() { return listingId; }
-    public void setListingId(String listingId) { this.listingId = listingId; }
-    public long getTimestamp() { return timestamp; }
-    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
     public long getLendDate() { return lendDate; }
     public void setLendDate(long lendDate) { this.lendDate = lendDate; }
     public long getReturnDate() { return returnDate; }
     public void setReturnDate(long returnDate) { this.returnDate = returnDate; }
+    public List<String> getPhotoUrls() { return photoUrls; }
+    public void setPhotoUrls(List<String> photoUrls) { this.photoUrls = photoUrls; }
 }

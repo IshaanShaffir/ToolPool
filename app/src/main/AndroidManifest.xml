@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
         android:allowBackup="true"
@@ -20,9 +19,13 @@
         android:theme="@style/Theme.Material3.Light"
         tools:targetApi="31">
         <activity
-            android:name=".Register"
+            android:name=".ListingDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar"/>
+        <activity
+            android:name=".Register"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".Login"
             android:exported="true"
@@ -36,8 +39,7 @@
         <activity
             android:name=".homeActivity"
             android:exported="true"
-            android:theme="@style/Theme.Material3.Light.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Material3.Light.NoActionBar"></activity>
     </application>
 
 </manifest>
