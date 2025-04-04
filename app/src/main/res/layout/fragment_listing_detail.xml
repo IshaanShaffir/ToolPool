@@ -11,10 +11,12 @@
 
         <ImageView
             android:id="@+id/detail_image"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/listing_image_desc" />
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/listing_image_desc"
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:id="@+id/detail_title"

@@ -1,6 +1,5 @@
 package com.androidpractice.toolpool;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,11 +86,12 @@ public class HomeFragment extends Fragment {
             imageView.setImageResource(R.drawable.placeholder_image);
         }
 
-        // Add click listener to the card
+        // Add click listener to navigate to ListingDetailFragment
         cardView.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ListingDetailActivity.class);
-            intent.putExtra("listing", listing); // Assumes Listing is Serializable or Parcelable
-            startActivity(intent);
+            if (getActivity() instanceof homeActivity) {
+                ListingDetailFragment detailFragment = ListingDetailFragment.newInstance(listing);
+                ((homeActivity) getActivity()).replaceFragment(detailFragment);
+            }
         });
 
         binding.listingsContainer.addView(cardView);
