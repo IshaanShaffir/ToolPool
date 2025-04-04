@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,15 +25,6 @@ public class SearchFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString("ARG_PARAM1", param1);
-        args.putString("ARG_PARAM2", param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,6 +40,7 @@ public class SearchFragment extends Fragment {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         EditText locationEditText = view.findViewById(R.id.editTextLocation);
         Spinner distanceSpinner = view.findViewById(R.id.spinner); // Ensure spinner id matches layout
         locationEditText.setFocusable(false);
@@ -96,6 +89,17 @@ public class SearchFragment extends Fragment {
                         editTextReturnDate.setText(selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear);
                     }, year, month, day);
             datePickerDialog.show();
+        });
+
+        // search functionality
+        EditText searchTextField = view.findViewById(R.id.editTextText);
+        Button searchButton = view.findViewById(R.id.buttonSearch);
+        searchButton.setOnClickListener(v -> {
+            String query = searchTextField.getText().toString().trim();
+            if (getActivity() instanceof homeActivity) {
+                // Use the newInstance method to pass the search query to SearchResultsFragment.
+                ((homeActivity) getActivity()).replaceFragment(SearchResultsFragment.newInstance(query));
+            }
         });
 
 
