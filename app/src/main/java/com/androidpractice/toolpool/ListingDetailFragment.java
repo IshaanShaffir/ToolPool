@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
-import com.bumptech.glide.Glide;
+import androidx.viewpager2.widget.ViewPager2;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +19,6 @@ public class ListingDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // Factory method to create a new instance with a Listing
     public static ListingDetailFragment newInstance(Listing listing) {
         ListingDetailFragment fragment = new ListingDetailFragment();
         Bundle args = new Bundle();
@@ -40,7 +38,8 @@ public class ListingDetailFragment extends Fragment {
         }
 
         // Bind views
-        ImageView imageView = view.findViewById(R.id.detail_image);
+        ViewPager2 viewPager = view.findViewById(R.id.images_view_pager);
+        TextView imageCounterView = view.findViewById(R.id.image_counter);
         TextView titleView = view.findViewById(R.id.detail_title);
         TextView descriptionView = view.findViewById(R.id.detail_description);
         TextView categoryView = view.findViewById(R.id.detail_category);
@@ -61,17 +60,22 @@ public class ListingDetailFragment extends Fragment {
         lendDateView.setText("Lend Date: " + dateFormat.format(new Date(listing.getLendDate())));
         returnDateView.setText("Return Date: " + dateFormat.format(new Date(listing.getReturnDate())));
 
-        // Load first photo if available
+        // Set up ViewPager2 with images
         List<String> photoUrls = listing.getPhotoUrls();
-        if (photoUrls != null && !photoUrls.isEmpty()) {
-            Glide.with(requireContext())
-                    .load(photoUrls.get(0))
-                    .placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.placeholder_image)
-                    .into(imageView);
-        } else {
-            imageView.setImageResource(R.drawable.placeholder_image);
-        }
+        ImagePagerAdapter adapter = new ImagePagerAdapter(photoUrls);
+        viewPager.setAdapter(adapter);
+
+        // Update image counter
+        int totalImages = (photoUrls != null && !photoUrls.isEmpty()) ? photoUrls.size() : 1;
+        imageCounterView.setText(String.format(Locale.getDefault(), "Image %d of %d", 1, totalImages));
+
+        // Update counter on page change
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                imageCounterView.setText(String.format(Locale.getDefault(), "Image %d of %d", position + 1, totalImages));
+            }
+        });
 
         return view;
     }
