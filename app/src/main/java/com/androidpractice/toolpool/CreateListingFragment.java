@@ -1,5 +1,7 @@
 package com.androidpractice.toolpool;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,18 +11,26 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.androidpractice.toolpool.databinding.FragmentCreateListingBinding;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class CreateListingFragment extends Fragment {
     private FragmentCreateListingBinding binding;
@@ -29,6 +39,9 @@ public class CreateListingFragment extends Fragment {
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
     private StorageReference storageReference;
+    interface OnGeocodeSuccessListener {
+        void onSuccess(LatLng latLng);
+    }
 
     private final ActivityResultLauncher<String> photoPicker = registerForActivityResult(
             new ActivityResultContracts.GetMultipleContents(),
@@ -57,7 +70,7 @@ public class CreateListingFragment extends Fragment {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item,
-                new String[]{"example1", "example2", "example3"});
+                new String[]{"Power Tools", "Hand Tools", "Garden Tools", "Automotive", "Other"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.categorySpinner.setAdapter(adapter);
 
@@ -66,6 +79,22 @@ public class CreateListingFragment extends Fragment {
         binding.createListingButton.setOnClickListener(v -> createListing());
 
         return binding.getRoot();
+    }
+
+    private String getSelectedCondition() {
+        int selectedId = binding.conditionGroup.getCheckedRadioButtonId();
+
+        if (selectedId == R.id.condition_new) {
+            return "New";
+        } else if (selectedId == R.id.condition_good) {
+            return "Good";
+        } else if (selectedId == R.id.condition_used) {
+            return "Used";
+        } else if (selectedId == R.id.condition_slight_damage) {
+            return "Slight Damage";
+        } else {
+            return "Unknown";
+        }
     }
 
     private void createListing() {
@@ -107,16 +136,30 @@ public class CreateListingFragment extends Fragment {
 
         String userId = auth.getCurrentUser().getUid();
         String listingId = databaseReference.push().getKey();
-        Listing listing = new Listing(title, description, category, address,
-                deposit, userId, lendDate.getTime(), returnDate.getTime());
-        listing.setListingId(listingId);
+        String condition = getSelectedCondition();
 
-        binding.createListingButton.setEnabled(false); // Prevent multiple clicks
-        if (photoUris.isEmpty()) {
-            saveListing(listingId, listing);
-        } else {
-            uploadPhotos(listingId, listing);
-        }
+        geocodeAddress(address, new OnGeocodeSuccessListener() {
+            @Override
+            public void onSuccess(LatLng latLng) {
+                Listing listing = new Listing(
+                        title, description, category, address,
+                        deposit, userId,
+                        lendDate.getTime(), returnDate.getTime(),
+                        condition,
+                        latLng.latitude,
+                        latLng.longitude
+                );
+                listing.setListingId(listingId);
+
+                binding.createListingButton.setEnabled(false);
+
+                if (photoUris.isEmpty()) {
+                    saveListing(listingId, listing);
+                } else {
+                    uploadPhotos(listingId, listing);
+                }
+            }
+        });
     }
 
     private void uploadPhotos(String listingId, Listing listing) {
@@ -146,21 +189,39 @@ public class CreateListingFragment extends Fragment {
         }
     }
 
+    private void geocodeAddress(String address, OnGeocodeSuccessListener listener) {
+        Geocoder geocoder = new Geocoder(requireContext());
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(address, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address location = addresses.get(0);
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                listener.onSuccess(latLng); // Pass the result back
+            } else {
+                Toast.makeText(getContext(), "Address not found", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            Toast.makeText(getContext(), "Geocoding failed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void saveListing(String listingId, Listing listing) {
-        databaseReference.child(listingId).setValue(listing)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getContext(), "Listing created successfully", Toast.LENGTH_SHORT).show();
-                    photoUris.clear();
-                    photosAdapter.notifyDataSetChanged();
-                    binding.createListingButton.setEnabled(true);
-                    if (getActivity() instanceof homeActivity) {
-                        ((homeActivity) getActivity()).replaceFragment(new HomeFragment());
+        FirebaseDatabase.getInstance().getReference("listings")
+                .child(listingId)
+                .setValue(listing)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(requireContext(), "Listing created!", Toast.LENGTH_SHORT).show();
+                        ((homeActivity) requireActivity()).replaceFragment(new HomeFragment());
                     }
                 })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Failed to create listing: " + e.getMessage(),
-                            Toast.LENGTH_SHORT).show();
-                    binding.createListingButton.setEnabled(true);
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(requireContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        binding.createListingButton.setEnabled(true);
+                    }
                 });
     }
 
