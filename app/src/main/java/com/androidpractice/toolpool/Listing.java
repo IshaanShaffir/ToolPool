@@ -13,13 +13,16 @@ public class Listing implements Serializable {
     private String userId;
     private long lendDate;
     private long returnDate;
+    private String condition;
+    private double latitude;
+    private double longitude;
     private List<String> photoUrls;
 
     // Required empty constructor for Firebase
     public Listing() {}
 
     public Listing(String title, String description, String category, String address,
-                   double deposit, String userId, long lendDate, long returnDate) {
+                   double deposit, String userId, long lendDate, long returnDate, String condition, double latitude, double longitude) {
         this.title = title;
         this.description = description;
         this.category = category;
@@ -28,6 +31,9 @@ public class Listing implements Serializable {
         this.userId = userId;
         this.lendDate = lendDate;
         this.returnDate = returnDate;
+        this.condition = condition;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     // Getters and setters
@@ -49,6 +55,10 @@ public class Listing implements Serializable {
     public void setLendDate(long lendDate) { this.lendDate = lendDate; }
     public long getReturnDate() { return returnDate; }
     public void setReturnDate(long returnDate) { this.returnDate = returnDate; }
+    public String getCondition() { return condition; }
+    public void setCondition(String condition) { this.condition = condition; }
+    public double getLatitude() { return latitude; }
+    public double getLongitude() { return longitude; }
     public List<String> getPhotoUrls() { return photoUrls; }
     public void setPhotoUrls(List<String> photoUrls) { this.photoUrls = photoUrls; }
 }
