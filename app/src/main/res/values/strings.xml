@@ -33,11 +33,10 @@
     </array>
 
     <array name="condition_spinner_items">
-        <item>Very Good</item>
+        <item>New</item>
         <item>Good</item>
-        <item>Fair</item>
-        <item>Damaged, but usable</item>
-        <item>Damaged, not usable</item>
+        <item>Used</item>
+        <item>Slight Damage</item>
     </array>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

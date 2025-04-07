@@ -102,35 +102,62 @@
             android:inputType="numberDecimal"
             android:layout_marginTop="16dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lend Date"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp" />
-
-        <DatePicker
-            android:id="@+id/lend_date_picker"
+        <!-- Horizontal Date Row -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:datePickerMode="spinner"
-            android:calendarViewShown="false"
-            android:layout_marginTop="8dp" />
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Return Date"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp" />
+            <!-- Lend Date Column -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        <DatePicker
-            android:id="@+id/return_date_picker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:datePickerMode="spinner"
-            android:calendarViewShown="false"
-            android:layout_marginTop="8dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lend Date:"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/editTextLendDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="Select date"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="16dp"
+                android:layout_height="1dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Return Date:"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/editTextReturnDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="Select date"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <Button
             android:id="@+id/create_listing_button"
