@@ -25,6 +25,7 @@
         <item>100 km</item>
     </array>
     <array name="category_spinner_items">
+        <item></item> // empty option for no category selection
         <item>Power Tool</item>
         <item>Hand Tool</item>
         <item>Cutting Tool</item>
@@ -33,11 +34,14 @@
     </array>
 
     <array name="condition_spinner_items">
-        <item>New</item>
-        <item>Good</item>
-        <item>Used</item>
-        <item>Slight Damage</item>
-    </array>
+    <item></item> <!-- empty option for no category selection -->
+    <item>New</item>
+    <item>Very Good</item>
+    <item>Good</item>
+    <item>Used</item>
+    <item>Slight Damage</item>
+</array>
+
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="listing_image_desc">listing_image_desc</string>
