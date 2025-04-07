@@ -28,11 +28,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD_SCoK5DP-6uk6R1yuQAQFF0n0JhIIRms"/>
-
-        <meta-data
-            android:name="com.google.android.gms.maps.API_KEY"
-            android:value="AIzaSyD_SCoK5DP-6uk6R1yuQAQFF0n0JhIIRms"/>
+            android:value="AIzaSyCDQ4qPlpQpT7crhTh--i_4H7exMV5khqQ"/>
 
         <activity
             android:name=".Register"
