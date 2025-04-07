@@ -1,5 +1,6 @@
 package com.androidpractice.toolpool;
 
+import android.app.DatePickerDialog;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -26,11 +29,12 @@ import com.google.firebase.storage.StorageReference;
 import com.androidpractice.toolpool.databinding.FragmentCreateListingBinding;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Locale;
 
 public class CreateListingFragment extends Fragment {
     private FragmentCreateListingBinding binding;
@@ -39,6 +43,11 @@ public class CreateListingFragment extends Fragment {
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
     private StorageReference storageReference;
+
+    private EditText editTextLendDate, editTextReturnDate;
+    private Calendar lendDateCalendar = Calendar.getInstance();
+    private Calendar returnDateCalendar = Calendar.getInstance();
+
     interface OnGeocodeSuccessListener {
         void onSuccess(LatLng latLng);
     }
@@ -74,11 +83,64 @@ public class CreateListingFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.categorySpinner.setAdapter(adapter);
 
-        binding.lendDatePicker.setMinDate(System.currentTimeMillis() - 1000);
+        editTextLendDate = binding.editTextLendDate;
+        editTextReturnDate = binding.editTextReturnDate;
+        setupDatePickers();
+
         binding.addPhotosButton.setOnClickListener(v -> photoPicker.launch("image/*"));
         binding.createListingButton.setOnClickListener(v -> createListing());
 
         return binding.getRoot();
+    }
+
+    private void setupDatePickers() {
+        DatePickerDialog.OnDateSetListener lendDateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                lendDateCalendar.set(Calendar.YEAR, year);
+                lendDateCalendar.set(Calendar.MONTH, month);
+                lendDateCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLendDateLabel();
+            }
+        };
+
+        DatePickerDialog.OnDateSetListener returnDateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                returnDateCalendar.set(Calendar.YEAR, year);
+                returnDateCalendar.set(Calendar.MONTH, month);
+                returnDateCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateReturnDateLabel();
+            }
+        };
+
+        editTextLendDate.setOnClickListener(v -> new DatePickerDialog(
+                requireContext(),
+                lendDateListener,
+                lendDateCalendar.get(Calendar.YEAR),
+                lendDateCalendar.get(Calendar.MONTH),
+                lendDateCalendar.get(Calendar.DAY_OF_MONTH))
+                .show());
+
+        editTextReturnDate.setOnClickListener(v -> new DatePickerDialog(
+                requireContext(),
+                returnDateListener,
+                returnDateCalendar.get(Calendar.YEAR),
+                returnDateCalendar.get(Calendar.MONTH),
+                returnDateCalendar.get(Calendar.DAY_OF_MONTH))
+                .show());
+    }
+
+    private void updateLendDateLabel() {
+        String myFormat = "MM/dd/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        editTextLendDate.setText(sdf.format(lendDateCalendar.getTime()));
+    }
+
+    private void updateReturnDateLabel() {
+        String myFormat = "MM/dd/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        editTextReturnDate.setText(sdf.format(returnDateCalendar.getTime()));
     }
 
     private String getSelectedCondition() {
@@ -104,17 +166,8 @@ public class CreateListingFragment extends Fragment {
         String address = binding.addressInput.getText().toString().trim();
         String depositStr = binding.depositInput.getText().toString().trim();
 
-        Calendar lendCalendar = Calendar.getInstance();
-        lendCalendar.set(binding.lendDatePicker.getYear(),
-                binding.lendDatePicker.getMonth(),
-                binding.lendDatePicker.getDayOfMonth());
-        Date lendDate = lendCalendar.getTime();
-
-        Calendar returnCalendar = Calendar.getInstance();
-        returnCalendar.set(binding.returnDatePicker.getYear(),
-                binding.returnDatePicker.getMonth(),
-                binding.returnDatePicker.getDayOfMonth());
-        Date returnDate = returnCalendar.getTime();
+        Date lendDate = lendDateCalendar.getTime();
+        Date returnDate = returnDateCalendar.getTime();
 
         if (title.isEmpty() || description.isEmpty() || address.isEmpty() || depositStr.isEmpty()) {
             Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
@@ -196,7 +249,7 @@ public class CreateListingFragment extends Fragment {
             if (addresses != null && !addresses.isEmpty()) {
                 Address location = addresses.get(0);
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                listener.onSuccess(latLng); // Pass the result back
+                listener.onSuccess(latLng);
             } else {
                 Toast.makeText(getContext(), "Address not found", Toast.LENGTH_SHORT).show();
             }
@@ -206,8 +259,7 @@ public class CreateListingFragment extends Fragment {
     }
 
     private void saveListing(String listingId, Listing listing) {
-        FirebaseDatabase.getInstance().getReference("listings")
-                .child(listingId)
+        databaseReference.child(listingId)
                 .setValue(listing)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

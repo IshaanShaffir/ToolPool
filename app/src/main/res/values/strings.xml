@@ -34,14 +34,14 @@
     </array>
 
     <array name="condition_spinner_items">
-        <item></item>// empty option for no category selection
-        <item>New</item>
-        <item>Very Good</item>
-        <item>Good</item>
-        <item>Fair</item>
-        <item>Damaged, but usable</item>
-        <item>Damaged, not usable</item>
-    </array>
+    <item></item> <!-- empty option for no category selection -->
+    <item>New</item>
+    <item>Very Good</item>
+    <item>Good</item>
+    <item>Used</item>
+    <item>Slight Damage</item>
+</array>
+
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="listing_image_desc">listing_image_desc</string>
