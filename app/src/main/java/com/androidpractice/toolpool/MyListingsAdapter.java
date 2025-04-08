@@ -25,7 +25,7 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Li
     }
 
     public void setListings(List<Listing> listings) {
-        this.listings = listings;
+        this.listings = (listings != null) ? listings : new ArrayList<>(); // Null check
         notifyDataSetChanged();
     }
 
@@ -56,6 +56,7 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Li
                     .load(listing.getPhotoUrls().get(0))
                     .apply(new RequestOptions()
                             .override(100, 100)
+                            .centerCrop()  // Added for better image scaling
                             .placeholder(android.R.drawable.ic_menu_gallery)
                             .error(android.R.drawable.ic_menu_gallery))
                     .into(holder.image);
@@ -66,6 +67,17 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Li
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onItemClick(listing);
+                // Optional: Add click animation
+                holder.itemView.animate()
+                        .scaleX(0.95f)
+                        .scaleY(0.95f)
+                        .setDuration(100)
+                        .withEndAction(() -> holder.itemView.animate()
+                                .scaleX(1f)
+                                .scaleY(1f)
+                                .setDuration(100)
+                                .start())
+                        .start();
             }
         });
     }

@@ -15,11 +15,13 @@ glide = "4.16.0"
 playServicesMaps = "18.2.0"
 playServicesLocation = "21.3.0"
 viewpager2 = "1.1.0"
+picasso = "2.8"
 
 
 [libraries]
 viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewpager2" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }

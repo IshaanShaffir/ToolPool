@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -194,15 +195,23 @@ public class CreateListingFragment extends Fragment {
         geocodeAddress(address, new OnGeocodeSuccessListener() {
             @Override
             public void onSuccess(LatLng latLng) {
+                // Updated constructor with all 14 parameters, including latitude and longitude
                 Listing listing = new Listing(
-                        title, description, category, address,
-                        deposit, userId,
-                        lendDate.getTime(), returnDate.getTime(),
+                        listingId,
+                        title,
+                        description,
+                        category,
+                        address,
+                        deposit,
+                        lendDate.getTime(),
+                        returnDate.getTime(),
+                        userId,
+                        new ArrayList<>(), // Initialize photoUrls as empty; will be updated after upload
                         condition,
-                        latLng.latitude,
-                        latLng.longitude
+                        false, // booked: default to false for new listings
+                        latLng.latitude, // Add latitude from geocoding
+                        latLng.longitude // Add longitude from geocoding
                 );
-                listing.setListingId(listingId);
 
                 binding.createListingButton.setEnabled(false);
 

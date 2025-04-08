@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,11 +44,17 @@ public class HomeFragment extends Fragment {
                 }
                 binding.listingsContainer.removeAllViews();
 
+                boolean hasListings = false;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Listing listing = snapshot.getValue(Listing.class);
-                    if (listing != null) {
+                    if (listing != null && !listing.isBooked()) { // Filter out booked listings
                         addListingCard(listing);
+                        hasListings = true;
                     }
+                }
+
+                if (!hasListings && isAdded()) {
+                    Toast.makeText(getContext(), "No available listings found", Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="maps" type="id" />
+    <item name="delete_button" type="id" />
+    <item name="partner_username" type="id" />
+    <item name="partner_profile_picture" type="id" />
 </resources>
