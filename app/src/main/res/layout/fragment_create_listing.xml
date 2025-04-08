@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Photos"
+            android:backgroundTint="@color/warm_amber"
             android:layout_marginTop="16dp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -164,6 +165,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Create Listing"
+            android:backgroundTint="@color/warm_amber"
             android:layout_marginTop="16dp" />
     </LinearLayout>
 </ScrollView>

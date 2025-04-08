@@ -70,6 +70,13 @@
                     android:layout_marginTop="8dp" />
 
                 <TextView
+                    android:id="@+id/detail_condition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
                     android:id="@+id/detail_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -138,9 +145,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Message"
+                        android:backgroundTint="@color/warm_amber"
                         android:layout_marginEnd="8dp"/>
 
                     <Button
+                        android:backgroundTint="@color/warm_amber"
                         android:id="@+id/request_tool_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
