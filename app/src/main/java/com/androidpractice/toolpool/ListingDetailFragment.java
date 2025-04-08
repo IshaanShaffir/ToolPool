@@ -75,6 +75,7 @@ public class ListingDetailFragment extends Fragment {
         TextView titleView = view.findViewById(R.id.detail_title);
         TextView descriptionView = view.findViewById(R.id.detail_description);
         TextView categoryView = view.findViewById(R.id.detail_category);
+        TextView conditionView = view.findViewById(R.id.detail_condition);
         TextView addressView = view.findViewById(R.id.detail_address);
         TextView depositView = view.findViewById(R.id.detail_deposit);
         TextView lendDateView = view.findViewById(R.id.detail_lend_date);
@@ -87,6 +88,7 @@ public class ListingDetailFragment extends Fragment {
         titleView.setText(listing.getTitle());
         descriptionView.setText("Description: " + listing.getDescription());
         categoryView.setText("Category: " + listing.getCategory());
+        conditionView.setText("Condition: " + listing.getCondition());
         addressView.setText("Address: " + listing.getAddress());
         depositView.setText("Deposit: $" + String.format("%.2f", listing.getDeposit()));
 

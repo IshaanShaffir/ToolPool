@@ -44,6 +44,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".homeActivity"
             android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />

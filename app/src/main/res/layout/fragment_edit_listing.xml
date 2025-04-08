@@ -54,6 +54,7 @@
             android:textSize="16sp" />
 
         <Button
+            android:backgroundTint="@color/warm_amber"
             android:id="@+id/edit_lend_date_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,6 +62,7 @@
             android:layout_marginTop="8dp" />
 
         <Button
+            android:backgroundTint="@color/warm_amber"
             android:id="@+id/edit_return_date_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,6 +70,7 @@
             android:layout_marginTop="8dp" />
 
         <Button
+            android:backgroundTint="@color/warm_amber"
             android:id="@+id/add_photos_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

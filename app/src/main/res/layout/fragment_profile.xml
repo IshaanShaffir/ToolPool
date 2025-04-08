@@ -45,6 +45,7 @@
     </LinearLayout>
 
     <Button
+        android:backgroundTint="@color/warm_amber"
         android:id="@+id/your_listings_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,6 +53,7 @@
         android:layout_marginTop="16dp" />
 
     <Button
+        android:backgroundTint="@color/warm_amber"
         android:id="@+id/saved_listings_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,6 +61,7 @@
         android:layout_marginTop="8dp" />
 
     <Button
+        android:backgroundTint="@color/warm_amber"
         android:id="@+id/chat_history_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,6 +69,7 @@
         android:layout_marginTop="8dp" />
 
     <Button
+        android:backgroundTint="@color/warm_amber"
         android:id="@+id/tool_requests_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,6 +77,7 @@
         android:layout_marginTop="8dp" />
 
     <Button
+        android:backgroundTint="@color/warm_amber"
         android:id="@+id/public_profile_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
