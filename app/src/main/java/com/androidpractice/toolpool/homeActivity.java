@@ -57,24 +57,47 @@ public class homeActivity extends AppCompatActivity {
                 replaceFragment(new HomeFragment());
             } else if (item.getItemId() == R.id.nav_search) {
                 replaceFragment(new SearchFragment());
-            }
-            else if (item.getItemId() == R.id.nav_profile) {
+            } else if (item.getItemId() == R.id.nav_profile) {
                 replaceFragment(new ProfileFragment());
-            }
-            else if (item.getItemId() == R.id.nav_map) {
+            } else if (item.getItemId() == R.id.nav_map) {
                 replaceFragment(new MapFragment());
-            }
-            else if (item.getItemId() == R.id.nav_settings) {
+            } else if (item.getItemId() == R.id.nav_settings) {
                 replaceFragment(new SettingsFragment());
             }
             return true;
         });
     }
 
-    void replaceFragment(Fragment fragment){
+    void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
+        // Add to back stack only if it's not one of the main navigation fragments
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_container);
+        if (!(fragment instanceof HomeFragment || fragment instanceof SearchFragment ||
+                fragment instanceof ProfileFragment || fragment instanceof MapFragment ||
+                fragment instanceof SettingsFragment)) {
+            fragmentTransaction.addToBackStack(null);
+        }
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            // Pop the top fragment from the back stack
+            fragmentManager.popBackStack();
+        } else {
+            // If no fragments in back stack, check current fragment and return to Home if not already there
+            Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_container);
+            if (!(currentFragment instanceof HomeFragment)) {
+                replaceFragment(new HomeFragment());
+                binding.bottomNavigation.setSelectedItemId(R.id.nav_home);
+            } else {
+                // If on HomeFragment with no back stack, exit the app
+                super.onBackPressed();
+            }
+        }
     }
 }
