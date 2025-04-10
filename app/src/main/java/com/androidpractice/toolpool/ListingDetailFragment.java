@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class ListingDetailFragment extends Fragment {
     private DatabaseReference toolRequestsRef;
     private boolean isSaved = false;
     private String listerUsername;
+    private RatingBar uploaderRatingBar;
 
     public ListingDetailFragment() {
         // Required empty public constructor
@@ -84,6 +86,7 @@ public class ListingDetailFragment extends Fragment {
         TextView uploaderName = view.findViewById(R.id.uploader_name);
         Button messageButton = view.findViewById(R.id.message_button);
         Button requestToolButton = view.findViewById(R.id.request_tool_button);
+        uploaderRatingBar = view.findViewById(R.id.uploader_rating_bar);
 
         titleView.setText(listing.getTitle());
         descriptionView.setText("Description: " + listing.getDescription());
@@ -147,6 +150,24 @@ public class ListingDetailFragment extends Fragment {
                                 .placeholder(R.drawable.ic_default_profile)
                                 .error(R.drawable.ic_default_profile)
                                 .into(profilePic);
+                    }
+
+                    // Calculate and set average rating
+                    DataSnapshot ratingsSnapshot = snapshot.child("ratings");
+                    float totalRating = 0;
+                    long ratingCount = ratingsSnapshot.getChildrenCount();
+
+                    if (ratingCount > 0) {
+                        for (DataSnapshot rating : ratingsSnapshot.getChildren()) {
+                            Float value = rating.getValue(Float.class);
+                            if (value != null) {
+                                totalRating += value;
+                            }
+                        }
+                        float averageRating = totalRating / ratingCount;
+                        uploaderRatingBar.setRating(averageRating);
+                    } else {
+                        uploaderRatingBar.setRating(0);
                     }
                 }
             }
